@@ -1,0 +1,8 @@
+version: V1.0
+
+server:
+  port: ${PORT:8002}
+  servlet:
+    session:
+      timeout: 21600s
+    contextPath: /api/users
