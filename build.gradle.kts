@@ -20,13 +20,19 @@ allprojects {
     }
 
     ext {
-        set("springBootVersion", "2.4.1")
+        set("springBootVersion", "2.7.5")
     }
 
     val springBootVersion = rootProject.extra["springBootVersion"]
 
+    // springboot
     project.extra["springbootweb"] = "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     project.extra["springdata"]     = "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    project.extra["spring-cloud-started-config"] = "org.springframework.cloud:spring-cloud-starter-config:3.1.4"
+    project.extra["spring-cloud-started-bootstrap"] = "org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4"
+    project.extra["jackson-kotlin"] = "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
+
+    // java
     project.extra["inject"] = "javax.inject:javax.inject:1"
 
 }

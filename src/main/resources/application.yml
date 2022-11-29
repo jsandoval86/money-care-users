@@ -1,8 +1,33 @@
 version: V1.0
 
+spring:
+  profiles:
+    active: dev
+  application:
+    name: "money-care-users"
+  datasource:
+    url: ${DB_JDBC_CONTROLLER:jdbc:h2:mem}:${DB_HOST:localhost}
+    driverClassName: ${DB_DRIVER:org.h2.Driver}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: ${DB_PLATFORM:org.hibernate.dialect.H2Dialect}
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  config:
+    import: optional:configserver:${URL_CONFIG_SERVER:http://localhost:8888/server/config}
+  cloud:
+    config:
+      enabled: true
+      fail-fast: true
+
 server:
   port: ${PORT:8002}
   servlet:
     session:
       timeout: 21600s
-    contextPath: /api/users
+    contextPath: ${CONTEXT_URL:/api/tracking}
+
+

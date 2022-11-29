@@ -10,6 +10,11 @@ dependencies {
 
     // spring
     implementation(project.extra["springbootweb"] as String)
+    implementation(project.extra["spring-cloud-started-config"] as String)
+    implementation(project.extra["spring-cloud-started-bootstrap"] as String)
+
+    // kotlin
+    implementation(project.extra["jackson-kotlin"] as String)
 
     // modules
     implementation(project(":domain"))
