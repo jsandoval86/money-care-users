@@ -1,4 +1,4 @@
-package com.moneycare.shared.message.outbox.model
+package com.moneycare.users.shared.message.outbox.model
 
 import java.time.LocalDateTime
 

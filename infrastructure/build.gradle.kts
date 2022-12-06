@@ -12,6 +12,7 @@ dependencies {
     implementation(project.extra["springbootweb"] as String)
     implementation(project.extra["spring-cloud-started-config"] as String)
     implementation(project.extra["spring-cloud-started-bootstrap"] as String)
+    implementation(project.extra["feign-starter"] as String)
 
     // kotlin
     implementation(project.extra["jackson-kotlin"] as String)

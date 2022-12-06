@@ -1,7 +1,7 @@
-package com.moneycare.users
+package com.moneycare.users.user
 
-import com.moneycare.shared.model.Cellphone
-import com.moneycare.shared.model.Email
+import com.moneycare.users.shared.model.Cellphone
+import com.moneycare.users.shared.model.Email
 import java.time.LocalDateTime
 
 class User(

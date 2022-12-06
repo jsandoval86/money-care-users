@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
 
-
+    implementation(project.extra["inject"] as String)
 }
 
 tasks.withType<KotlinCompile> {

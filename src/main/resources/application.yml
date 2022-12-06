@@ -22,6 +22,8 @@ spring:
     config:
       enabled: true
       fail-fast: true
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 server:
   port: ${PORT:8002}
@@ -30,4 +32,9 @@ server:
       timeout: 21600s
     contextPath: ${CONTEXT_URL:/api/tracking}
 
-
+keycloak:
+  client-id: ${KCK_CLIENT_ID}
+  client-secret: ${KCK_CLIENT_SECRET}
+  urls:
+    host: ${KCK_HOST}
+    token: ${KCK_URL_AUTH}

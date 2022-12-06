@@ -10,6 +10,9 @@ dependencies {
 
     implementation(project.extra["inject"] as String)
 
+    // modules
+    implementation(project(":domain"))
+
 }
 
 tasks.withType<KotlinCompile> {

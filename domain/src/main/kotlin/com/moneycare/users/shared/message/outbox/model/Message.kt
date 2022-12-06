@@ -1,4 +1,4 @@
-package com.moneycare.shared.message.outbox.model
+package com.moneycare.users.shared.message.outbox.model
 
 abstract class Message  {
     abstract var version : Int
