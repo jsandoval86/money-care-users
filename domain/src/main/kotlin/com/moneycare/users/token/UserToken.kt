@@ -1,6 +1,6 @@
 package com.moneycare.users.token
 
-import com.moneycare.users.token.TokenType
+import java.util.UUID
 
 class UserToken(
     var accessToken: String,
@@ -8,4 +8,12 @@ class UserToken(
     var refreshToken: String,
     var refreshExpiresIn: Int,
     var tokenType: TokenType
-)
+) {
+
+    companion object{
+        fun random(): UserToken {
+            return UserToken(UUID.randomUUID().toString(), 100, UUID.randomUUID().toString(), 100, TokenType.Bearer)
+        }
+    }
+
+}

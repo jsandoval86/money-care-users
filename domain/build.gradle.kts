@@ -9,6 +9,10 @@ plugins {
 dependencies {
 
     implementation(project.extra["inject"] as String)
+
+    // test
+    testImplementation(project.extra["test-junit-api"] as String)
+    testRuntimeOnly(project.extra["test-junit-engine"] as String)
 }
 
 tasks.withType<KotlinCompile> {

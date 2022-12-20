@@ -1,4 +1,4 @@
-package com.app
+package com.moneycare
 
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
@@ -8,6 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.ComponentScan
 
 
+//@SpringBootApplication(exclude = [org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration::class])
 @SpringBootApplication
 @ComponentScan(
     basePackages = ["com.moneycare"]
