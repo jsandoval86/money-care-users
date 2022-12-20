@@ -23,6 +23,10 @@ allprojects {
         set("springBootVersion", "2.7.5")
     }
 
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
     val springBootVersion = rootProject.extra["springBootVersion"]
 
     // springboot
@@ -32,10 +36,16 @@ allprojects {
     project.extra["spring-cloud-started-bootstrap"] = "org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.4"
     project.extra["jackson-kotlin"] = "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
     project.extra["feign-starter"] = "org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5"
+    project.extra["hibernate-validator"] = "org.hibernate:hibernate-validator:6.2.5.Final"
 
     // java
     project.extra["inject"] = "javax.inject:javax.inject:1"
+    project.extra["h2"] = "com.h2database:h2:2.1.214"
 
+    // test
+    project.extra["spring-boot-test"] = "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    project.extra["test-junit-api"] = "org.junit.jupiter:junit-jupiter-api:5.8.1"
+    project.extra["test-junit-engine"] = "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
 dependencies {
@@ -48,12 +58,9 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.app.Application")
+    mainClass.set("com.moneycare.Application")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
