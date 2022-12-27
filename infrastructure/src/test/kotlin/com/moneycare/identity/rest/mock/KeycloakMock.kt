@@ -21,6 +21,15 @@ class KeycloakMock(private val port: Int) : WireMockServer(port) {
                         .withBody(ClassPathResource("mock/token-response.json").file.readText())
                 )
         )
+
+        stubFor(
+            WireMock.post(WireMock.urlPathMatching("/users"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                )
+        )
     }
 
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 class User private constructor(
-    private var uuid: UUID,
+    private var id: UUID,
     private var name: String,
     private var lastName: String,
     private var email: Email,
@@ -25,12 +25,12 @@ class User private constructor(
 
     private fun create() {
         messages.add(
-          UserCreatedEvent(this.uuid)
+          UserCreatedEvent(this.id)
         )
     }
 
 
-    fun getUuid(): UUID = this.uuid
+    fun getId(): UUID = this.id
     fun getName(): String = this.name
     fun getLastName(): String = this.lastName
     fun getEmail(): Email = this.email

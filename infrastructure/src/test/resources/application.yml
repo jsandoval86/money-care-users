@@ -11,6 +11,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 keycloak:
   client-id: app

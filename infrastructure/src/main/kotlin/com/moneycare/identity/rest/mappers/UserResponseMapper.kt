@@ -9,6 +9,7 @@ class UserResponseMapper {
 
     fun mapToResponse(user: User): UserResponse {
         return  UserResponse(
+            user.getId().toString(),
             user.getName(),
             user.getLastName(),
             user.getEmail().getValue(),

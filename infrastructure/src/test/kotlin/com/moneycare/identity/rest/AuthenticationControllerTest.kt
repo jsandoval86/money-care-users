@@ -16,16 +16,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AuthenticationControllerTest : RestTest() {
 
-    private val url = "/log-in"
     private val keycloakMock = KeycloakMock(8082)
 
     @BeforeAll
-    fun setUp() {
+    fun beforeAll() {
         keycloakMock.starServer()
     }
 
     @AfterAll
-    fun afterEach() {
+    fun afterAll() {
         keycloakMock.stop()
     }
 
@@ -35,14 +34,13 @@ class AuthenticationControllerTest : RestTest() {
             .build()
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post(url)
+            MockMvcRequestBuilders.post(URLIdentity.LOGIN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest))
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.access_token", Matchers.equalTo("eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJucFljYnlYWTFBNm93Rk85M0d3Vkx")))
             .andExpect(MockMvcResultMatchers.jsonPath("$.token_type", Matchers.equalTo("Bearer")))
-
     }
 
 }
