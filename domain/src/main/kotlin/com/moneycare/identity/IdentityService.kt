@@ -8,4 +8,6 @@ interface IdentityService {
     fun createTokenByUserNameAndPassword(username: String, password: String): UserToken
 
     fun createUser(user: User, password: String)
+
+    fun refreshTokenUser(refreshToken: String): UserToken
 }

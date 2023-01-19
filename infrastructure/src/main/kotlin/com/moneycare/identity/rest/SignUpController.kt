@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping(URLIdentity.SIGN_UP, consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(URLIdentityV1.SIGN_UP, consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
 @Validated
 open class SignUpController(
     private var signUpUserUseCase: SignUpUserUseCase,

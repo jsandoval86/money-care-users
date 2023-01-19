@@ -2,8 +2,10 @@ package com.moneycare.identity.client
 
 import com.moneycare.identity.IdentityService
 import com.moneycare.identity.client.mapper.KeyCloakCreateUserRequestMapper
+import com.moneycare.identity.client.mapper.KeyCloakRefreshTokeRequestMapper
 import com.moneycare.identity.client.mapper.KeyCloakTokenResponseMapper
 import com.moneycare.identity.client.request.KeyCloakTokenRequest
+import com.moneycare.identity.client.shared.GrantType
 import com.moneycare.users.token.UserToken
 import com.moneycare.users.user.User
 import org.slf4j.LoggerFactory
@@ -19,7 +21,8 @@ import org.springframework.stereotype.Service
 class IdentityServiceKeycloakHttp(
     private var keyCloakTokenResponseMapper: KeyCloakTokenResponseMapper,
     private var identityClient: IdentityKeycloakFeignClient,
-    private var keyCloakCreateUserRequestMapper: KeyCloakCreateUserRequestMapper
+    private var keyCloakCreateUserRequestMapper: KeyCloakCreateUserRequestMapper,
+    private var keyCloakRefreshTokeRequestMapper: KeyCloakRefreshTokeRequestMapper
 ): IdentityService {
     // TODO: feign client hanlder exceptions
 
@@ -32,7 +35,7 @@ class IdentityServiceKeycloakHttp(
     private lateinit var clientSecret: String
 
     override fun createTokenByUserNameAndPassword(username: String, password: String): UserToken {
-        val request = KeyCloakTokenRequest(clientId, clientSecret, "password", "openid", username, password)
+        val request = KeyCloakTokenRequest(clientId, clientSecret, GrantType.password.name, "openid", username, password)
         log.debug("call identity server service to create token")
         val keyCloakToken = identityClient.createToken(request)
         log.debug("identity server response: $keyCloakToken")
@@ -45,6 +48,14 @@ class IdentityServiceKeycloakHttp(
         log.debug("call identity server service to create user")
         identityClient.createUser(request)
         log.debug("user created!")
+    }
+
+    override fun refreshTokenUser(refreshToken: String): UserToken {
+        val request = keyCloakRefreshTokeRequestMapper.mapToRequest(clientId, clientSecret, GrantType.refresh_token.name, refreshToken)
+        log.debug("call identity server service to refresh token user")
+        val keyCloakToken = identityClient.refreshToken(request)
+        log.debug("token response: $keyCloakToken")
+        return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
     }
 
 }
