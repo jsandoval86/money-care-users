@@ -2,6 +2,7 @@ package com.moneycare.identity.rest
 
 import com.moneycare.identity.rest.mock.KeycloakMock
 import com.moneycare.identity.rest.request.builders.LoginRequestTestBuilder
+import com.moneycare.identity.rest.request.builders.RefreshRequestTestBuilder
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -34,7 +35,7 @@ class AuthenticationControllerTest : RestTest() {
             .build()
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post(URLIdentity.LOGIN)
+            MockMvcRequestBuilders.post(URLIdentityV1.LOGIN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest))
@@ -42,5 +43,21 @@ class AuthenticationControllerTest : RestTest() {
             .andExpect(MockMvcResultMatchers.jsonPath("$.access_token", Matchers.equalTo("eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJucFljYnlYWTFBNm93Rk85M0d3Vkx")))
             .andExpect(MockMvcResultMatchers.jsonPath("$.token_type", Matchers.equalTo("Bearer")))
     }
+
+    @Test
+    fun refreshToken() {
+        val refreshTokenRequest = RefreshRequestTestBuilder().build()
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(URLIdentityV1.REFRESH_TOKEN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(refreshTokenRequest))
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.access_token", Matchers.equalTo("eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJucFljYnlYWTFBNm93Rk85M0d3Vkx")))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.token_type", Matchers.equalTo("Bearer")))
+    }
+
+    // TODO: test external api errors
 
 }

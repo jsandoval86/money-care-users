@@ -33,7 +33,7 @@ class SignUpControllerTest : RestTest() {
         val signupRequest = SignUpRequestTestBuilder().default().build()
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post(URLIdentity.SIGN_UP)
+            MockMvcRequestBuilders.post(URLIdentityV1.SIGN_UP)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(signupRequest))

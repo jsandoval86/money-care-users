@@ -1,6 +1,7 @@
 package com.moneycare.identity.client
 
 import com.moneycare.identity.client.request.KeyCloakCreateUserRequest
+import com.moneycare.identity.client.request.KeyCloakTokenRefreshRequest
 import com.moneycare.identity.client.request.KeyCloakTokenRequest
 import com.moneycare.identity.client.response.KeyCloakTokenResponse
 import feign.form.spring.SpringFormEncoder
@@ -21,6 +22,9 @@ interface IdentityKeycloakFeignClient {
 
     @PostMapping("\${keycloak.urls.users}", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun createUser(request: KeyCloakCreateUserRequest)
+
+    @PostMapping("\${keycloak.urls.token}", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun refreshToken(request: KeyCloakTokenRefreshRequest): KeyCloakTokenResponse
 
     open class Configuration {
         @Bean

@@ -23,4 +23,9 @@ class IdentityServiceKeycloakDefault : IdentityService {
     override fun createUser(user: User, password: String) {
         log.warn("requesting create user, but identity service is disabled")
     }
+
+    override fun refreshTokenUser(refreshToken: String): UserToken {
+        log.warn("requesting refresh token, but identity service is disabled")
+        return UserToken.random()
+    }
 }
