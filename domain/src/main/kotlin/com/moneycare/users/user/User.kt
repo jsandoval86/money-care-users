@@ -1,5 +1,6 @@
 package com.moneycare.users.user
 
+import com.moneycare.users.rol.Rol
 import com.moneycare.users.shared.model.Aggregate
 import com.moneycare.users.shared.model.Cellphone
 import com.moneycare.users.shared.model.Email
@@ -12,12 +13,15 @@ class User private constructor(
     private var lastName: String,
     private var email: Email,
     private var cellphone: Cellphone,
-    private var createdDate: LocalDateTime
+    private var createdDate: LocalDateTime,
+    private var rol: Rol
 ) : Aggregate() {
 
     companion object {
-        fun create(name: String, lastName: String, email: Email, cellphone: Cellphone) : User {
-            val newUser = User(UUID.randomUUID(), name, lastName, email, cellphone, LocalDateTime.now())
+        fun createPro(name: String, lastName: String, email: String, cellphone: String) : User {
+            val e = Email.of(email)
+            val c = Cellphone.of(cellphone)
+            val newUser = User(UUID.randomUUID(), name, lastName, e, c, LocalDateTime.now(), Rol.pro)
             newUser.create()
             return newUser
         }
@@ -36,6 +40,7 @@ class User private constructor(
     fun getEmail(): Email = this.email
     fun getCellphone(): Cellphone = this.cellphone
     fun getCreatedDate(): LocalDateTime = this.createdDate
+    fun getRol(): Rol = this.rol
         
 
 }

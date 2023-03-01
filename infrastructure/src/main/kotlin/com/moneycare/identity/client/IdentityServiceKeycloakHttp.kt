@@ -6,6 +6,7 @@ import com.moneycare.identity.client.mapper.KeyCloakRefreshTokeRequestMapper
 import com.moneycare.identity.client.mapper.KeyCloakTokenResponseMapper
 import com.moneycare.identity.client.request.KeyCloakTokenRequest
 import com.moneycare.identity.client.shared.GrantType
+import com.moneycare.users.password.Password
 import com.moneycare.users.token.UserToken
 import com.moneycare.users.user.User
 import org.slf4j.LoggerFactory
@@ -43,8 +44,8 @@ class IdentityServiceKeycloakHttp(
         return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
     }
 
-    override fun createUser(user: User, password: String) {
-        val request = keyCloakCreateUserRequestMapper.mapToRequest(user, password)
+    override fun createUser(user: User, password: Password) {
+        val request = keyCloakCreateUserRequestMapper.mapToRequest(user, password.getText())
         log.debug("call identity server service to create user")
         identityClient.createUser(request)
         log.debug("user created!")

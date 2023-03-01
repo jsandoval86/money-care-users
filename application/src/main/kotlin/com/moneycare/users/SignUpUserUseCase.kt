@@ -1,8 +1,7 @@
 package com.moneycare.users
 
 import com.moneycare.identity.IdentityService
-import com.moneycare.users.shared.model.Cellphone
-import com.moneycare.users.shared.model.Email
+import com.moneycare.users.password.Password
 import com.moneycare.users.user.SignUpCommand
 import com.moneycare.users.user.User
 import javax.inject.Named
@@ -13,11 +12,11 @@ class SignUpUserUseCase(
 ) {
 
     fun execute(command: SignUpCommand) : User {
-        val email = Email.of(command.email)
-        val cellphone = Cellphone.of(command.cellphone)
-        val user = User.create(command.name, command.lastName, email, cellphone)
 
-        identityService.createUser(user, command.password)
+        val user = User.createPro(command.name, command.lastName, command.email, command.cellphone)
+        val password = Password.of(command.password)
+        
+        identityService.createUser(user, password)
 
         return user
     }
