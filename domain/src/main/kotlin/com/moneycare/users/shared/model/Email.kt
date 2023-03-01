@@ -3,7 +3,7 @@ package com.moneycare.users.shared.model
 import com.moneycare.users.shared.exceptions.TechnicalException
 
 class Email private
-    constructor(private var value: String) {
+    constructor(private var value: String){
 
     fun getValue(): String =  value
 
@@ -14,7 +14,6 @@ class Email private
         }
 
         private fun asserts(value: String) {
-            // TODO: strict validations
            if ( !value.contains("@")) throw TechnicalException("email must contains @ symbol")
         }
     }

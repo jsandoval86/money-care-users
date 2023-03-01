@@ -28,5 +28,4 @@ open class SignUpController(
         val user = signUpUserUseCase.execute(command)
         return userResponseMapper.mapToResponse(user)
     }
-
 }

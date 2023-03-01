@@ -1,6 +1,7 @@
 package com.moneycare.identity.client
 
 import com.moneycare.identity.IdentityService
+import com.moneycare.users.password.Password
 import com.moneycare.users.token.UserToken
 import com.moneycare.users.user.User
 import org.slf4j.LoggerFactory
@@ -20,7 +21,7 @@ class IdentityServiceKeycloakDefault : IdentityService {
         return UserToken.random()
     }
 
-    override fun createUser(user: User, password: String) {
+    override fun createUser(user: User, password: Password) {
         log.warn("requesting create user, but identity service is disabled")
     }
 
