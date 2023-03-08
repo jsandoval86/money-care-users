@@ -29,4 +29,8 @@ class IdentityServiceKeycloakDefault : IdentityService {
         log.warn("requesting refresh token, but identity service is disabled")
         return UserToken.random()
     }
+
+    override fun validateToken(token: String){
+        log.warn("requesting validate token, but identity service is disabled")
+    }
 }

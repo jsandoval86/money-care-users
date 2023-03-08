@@ -38,6 +38,7 @@ keycloak:
   realm : ${KCK_REALM:money-care}
   host: ${KCK_HOST:localhost:8082}
   urls:
-    token: ${KCK_URL_AUTH:/realms/money-care/protocol/openid-connect/token}
-    users: ${KCK_URL_USERS:/admin/realms/money-care/users}
+    token: ${KCK_URL_AUTH:/realms/{realm}/protocol/openid-connect/token}
+    users: ${KCK_URL_USERS:/admin/realms/{realm}/users}
+    user-info: ${KCK_URL_USER_INFO:/admin/realms/{realm}/userinfo}
   enabled: true

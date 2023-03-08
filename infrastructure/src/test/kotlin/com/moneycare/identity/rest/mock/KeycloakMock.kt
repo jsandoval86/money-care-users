@@ -13,7 +13,7 @@ class KeycloakMock(private val port: Int) : WireMockServer(port) {
         start()
 
         stubFor(
-            WireMock.post(WireMock.urlPathMatching("/auth"))
+            WireMock.post(WireMock.urlPathMatching("/([a-zA-Z0-9-]*)/auth"))
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
@@ -23,10 +23,19 @@ class KeycloakMock(private val port: Int) : WireMockServer(port) {
         )
 
         stubFor(
-            WireMock.post(WireMock.urlPathMatching("/users"))
+            WireMock.post(WireMock.urlPathMatching("/([a-zA-Z0-9-]*)/users"))
                 .willReturn(
                     WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                )
+        )
+
+        stubFor(
+            WireMock.get(WireMock.urlPathMatching("/([a-zA-Z0-9-]*)/userinfo"))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withStatus(HttpStatus.UNAUTHORIZED.value())
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 )
         )
