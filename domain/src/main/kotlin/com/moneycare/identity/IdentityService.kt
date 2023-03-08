@@ -11,4 +11,6 @@ interface IdentityService {
     fun createUser(user: User, password: Password)
 
     fun refreshTokenUser(refreshToken: String): UserToken
+
+    fun validateToken(token: String)
 }

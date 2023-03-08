@@ -25,7 +25,6 @@ class IdentityServiceKeycloakHttp(
     private var keyCloakCreateUserRequestMapper: KeyCloakCreateUserRequestMapper,
     private var keyCloakRefreshTokeRequestMapper: KeyCloakRefreshTokeRequestMapper
 ): IdentityService {
-    // TODO: feign client hanlder exceptions
 
     private val log = LoggerFactory.getLogger(javaClass)
 
@@ -35,10 +34,13 @@ class IdentityServiceKeycloakHttp(
     @Value(value = "\${keycloak.client-secret}")
     private lateinit var clientSecret: String
 
+    @Value(value = "\${keycloak.realm}")
+    private lateinit var realm: String
+
     override fun createTokenByUserNameAndPassword(username: String, password: String): UserToken {
         val request = KeyCloakTokenRequest(clientId, clientSecret, GrantType.password.name, "openid", username, password)
         log.debug("call identity server service to create token")
-        val keyCloakToken = identityClient.createToken(request)
+        val keyCloakToken = identityClient.createToken(realm, request)
         log.debug("identity server response: $keyCloakToken")
 
         return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
@@ -47,16 +49,22 @@ class IdentityServiceKeycloakHttp(
     override fun createUser(user: User, password: Password) {
         val request = keyCloakCreateUserRequestMapper.mapToRequest(user, password.getText())
         log.debug("call identity server service to create user")
-        identityClient.createUser(request)
+        identityClient.createUser(realm, request)
         log.debug("user created!")
     }
 
     override fun refreshTokenUser(refreshToken: String): UserToken {
         val request = keyCloakRefreshTokeRequestMapper.mapToRequest(clientId, clientSecret, GrantType.refresh_token.name, refreshToken)
         log.debug("call identity server service to refresh token user")
-        val keyCloakToken = identityClient.refreshToken(request)
+        val keyCloakToken = identityClient.refreshToken(realm, request)
         log.debug("token response: $keyCloakToken")
         return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
+    }
+
+    override fun validateToken(token: String){
+        log.debug("call identity server service to validate token user")
+        val userInfoResponse = identityClient.validateToken(realm, token)
+        log.debug("user info response: $userInfoResponse")
     }
 
 }
