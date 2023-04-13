@@ -4,7 +4,8 @@ import com.moneycare.identity.IdentityService
 import com.moneycare.identity.client.mapper.KeyCloakCreateUserRequestMapper
 import com.moneycare.identity.client.mapper.KeyCloakRefreshTokeRequestMapper
 import com.moneycare.identity.client.mapper.KeyCloakTokenResponseMapper
-import com.moneycare.identity.client.request.KeyCloakTokenRequest
+import com.moneycare.identity.client.request.KeyCloakTokenRequestGranTypeClientCredentials
+import com.moneycare.identity.client.request.KeyCloakTokenRequestGrantTypePassword
 import com.moneycare.identity.client.shared.GrantType
 import com.moneycare.users.password.Password
 import com.moneycare.users.token.UserToken
@@ -37,34 +38,42 @@ class IdentityServiceKeycloakHttp(
     @Value(value = "\${keycloak.realm}")
     private lateinit var realm: String
 
+    @Value(value = "\${keycloak.admin.realm}")
+    private lateinit var adminRealm: String
+
+    @Value(value = "\${keycloak.admin.client-secret}")
+    private lateinit var adminClientSecret: String
+
+    @Value(value = "\${keycloak.admin.client-id}")
+    private lateinit var adminClientId: String
+
+
     override fun createTokenByUserNameAndPassword(username: String, password: String): UserToken {
-        val request = KeyCloakTokenRequest(clientId, clientSecret, GrantType.password.name, "openid", username, password)
-        log.debug("call identity server service to create token")
+        val request = KeyCloakTokenRequestGrantTypePassword(clientId, clientSecret, GrantType.password.name, "openid", username, password)
         val keyCloakToken = identityClient.createToken(realm, request)
-        log.debug("identity server response: $keyCloakToken")
 
         return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
     }
 
     override fun createUser(user: User, password: Password) {
-        val request = keyCloakCreateUserRequestMapper.mapToRequest(user, password.getText())
-        log.debug("call identity server service to create user")
-        identityClient.createUser(realm, request)
-        log.debug("user created!")
+
+
+        val tokenAdminRequest = KeyCloakTokenRequestGranTypeClientCredentials(adminClientId, adminClientSecret, GrantType.client_credentials.name)
+        val adminToken = identityClient.createToken(adminRealm, tokenAdminRequest);
+
+        val requestCreateUser = keyCloakCreateUserRequestMapper.mapToRequest(user, password.getText())
+        identityClient.createUser(adminToken.getTokenBearer(), realm, requestCreateUser)
     }
 
     override fun refreshTokenUser(refreshToken: String): UserToken {
         val request = keyCloakRefreshTokeRequestMapper.mapToRequest(clientId, clientSecret, GrantType.refresh_token.name, refreshToken)
-        log.debug("call identity server service to refresh token user")
         val keyCloakToken = identityClient.refreshToken(realm, request)
-        log.debug("token response: $keyCloakToken")
+
         return keyCloakTokenResponseMapper.mapToDomain(keyCloakToken)
     }
 
     override fun validateToken(token: String){
-        log.debug("call identity server service to validate token user")
-        val userInfoResponse = identityClient.validateToken(realm, token)
-        log.debug("user info response: $userInfoResponse")
+        identityClient.validateToken(realm, token)
     }
 
 }

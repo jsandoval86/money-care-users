@@ -11,7 +11,7 @@ class KeyCloakCreateUserRequestMapper {
     fun mapToRequest(user: User, password: String): KeyCloakCreateUserRequest {
         return KeyCloakCreateUserRequest(
             user.getName(), user.getLastName(), user.getEmail().getValue(),
-            true, user.getEmail().getValue(), KeyCloakCredentials.createPassword(password)
+            true, user.getEmail().getValue(), listOf(KeyCloakCredentials.createPassword(password))
         )
     }
 }
