@@ -7,6 +7,7 @@ import com.moneycare.users.user.User
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 @ConditionalOnProperty(
@@ -21,8 +22,9 @@ class IdentityServiceKeycloakDefault : IdentityService {
         return UserToken.random()
     }
 
-    override fun createUser(user: User, password: Password) {
+    override fun createUser(user: User, password: Password): String {
         log.warn("requesting create user, but identity service is disabled")
+        return UUID.randomUUID().toString()
     }
 
     override fun refreshTokenUser(refreshToken: String): UserToken {
@@ -32,5 +34,9 @@ class IdentityServiceKeycloakDefault : IdentityService {
 
     override fun validateToken(token: String){
         log.warn("requesting validate token, but identity service is disabled")
+    }
+
+    override fun deleteUserById(identityId: String) {
+        log.warn("requesting delete user by id, but identity service is disabled")
     }
 }

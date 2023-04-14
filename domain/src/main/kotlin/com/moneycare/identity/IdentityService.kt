@@ -8,9 +8,11 @@ interface IdentityService {
 
     fun createTokenByUserNameAndPassword(username: String, password: String): UserToken
 
-    fun createUser(user: User, password: Password)
+    fun createUser(user: User, password: Password): String
 
     fun refreshTokenUser(refreshToken: String): UserToken
 
     fun validateToken(token: String)
+
+    fun deleteUserById(identityId: String)
 }

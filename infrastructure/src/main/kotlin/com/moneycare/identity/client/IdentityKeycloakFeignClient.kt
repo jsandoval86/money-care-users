@@ -7,6 +7,7 @@ import com.moneycare.identity.client.request.KeyCloakTokenRequestGranTypeClientC
 import com.moneycare.identity.client.request.KeyCloakTokenRequestGrantTypePassword
 import com.moneycare.identity.client.response.KeyCloakTokenResponse
 import com.moneycare.identity.client.response.KeyCloakUserInfoResponse
+import feign.Response
 import feign.form.spring.SpringFormEncoder
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters
 import org.springframework.cloud.openfeign.FeignClient
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.beans.factory.ObjectFactory
 import feign.codec.Encoder
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
@@ -41,7 +43,7 @@ interface IdentityKeycloakFeignClient {
         @RequestHeader("Authorization") token: String,
         @PathVariable realm: String,
         request: KeyCloakCreateUserRequest
-    )
+    ): Response
 
     @PostMapping("\${keycloak.urls.token}", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun refreshToken(
@@ -54,6 +56,13 @@ interface IdentityKeycloakFeignClient {
         @PathVariable realm: String,
         @RequestHeader("Authorization") token: String
     ): KeyCloakUserInfoResponse
+
+    @DeleteMapping("\${keycloak.urls.users}/{id}", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun deleteUser(
+        @PathVariable realm: String,
+        @PathVariable id: String,
+        @RequestHeader("Authorization") token: String
+    )
 
 
     @org.springframework.context.annotation.Configuration

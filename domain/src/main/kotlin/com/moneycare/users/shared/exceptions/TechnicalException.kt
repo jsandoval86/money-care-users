@@ -1,3 +1,7 @@
 package com.moneycare.users.shared.exceptions
 
-class TechnicalException(s: String) : RuntimeException(s)
+class TechnicalException: RuntimeException {
+    constructor(s: String): super(s)
+    constructor(s: String, e: Exception) : super(s, e)
+
+}
