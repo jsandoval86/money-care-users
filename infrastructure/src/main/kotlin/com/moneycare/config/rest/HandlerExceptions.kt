@@ -1,6 +1,7 @@
 package com.moneycare.config.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.moneycare.config.rest.exception.NoFoundAuthorizationHeader
 import com.moneycare.users.user.exception.UnAuthorizedException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +20,13 @@ class HandlerExceptions {
 
     @ExceptionHandler(UnAuthorizedException::class)
     fun handle(e: UnAuthorizedException): ResponseEntity<ErrorResponse> {
+        val error = ErrorResponse(status = HttpStatus.UNAUTHORIZED, error = "user unauthorized")
+        log.debug(objectMapper.writeValueAsString(error), e)
+        return ResponseEntity(error, error.status)
+    }
+
+    @ExceptionHandler(NoFoundAuthorizationHeader::class)
+    fun handle(e: NoFoundAuthorizationHeader): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(status = HttpStatus.UNAUTHORIZED, error = "user unauthorized")
         log.debug(objectMapper.writeValueAsString(error), e)
         return ResponseEntity(error, error.status)

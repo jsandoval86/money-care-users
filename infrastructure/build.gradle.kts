@@ -29,6 +29,10 @@ dependencies {
     // modules
     implementation(project(":domain"))
     implementation(project(":application"))
+
+    // libs
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+
 }
 
 tasks.withType<KotlinCompile> {

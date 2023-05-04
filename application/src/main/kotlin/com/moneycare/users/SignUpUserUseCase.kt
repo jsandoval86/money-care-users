@@ -1,6 +1,7 @@
 package com.moneycare.users
 
 import com.moneycare.identity.IdentityService
+import com.moneycare.permissions.PermissionChecker
 import com.moneycare.shared.messages.outbox.repository.OutboxRepository
 import com.moneycare.users.password.Password
 import com.moneycare.users.rol.Rol
@@ -20,7 +21,6 @@ class SignUpUserUseCase(
 ) {
 
     fun execute(command: SignUpCommand) : User {
-
         val user = User.createPro(command.name, command.lastName, command.email, command.cellphone)
         val password = Password.of(command.password)
 
